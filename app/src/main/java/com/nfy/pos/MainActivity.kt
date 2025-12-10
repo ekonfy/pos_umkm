@@ -23,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewScreenSizes
+import com.nfy.pos.ui.screens.AddProductScreen
 import com.nfy.pos.ui.theme.POSTheme
 
 class MainActivity : ComponentActivity() {
@@ -60,10 +61,11 @@ fun POSApp() {
         }
     ) {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-            Greeting(
-                name = "Android",
-                modifier = Modifier.padding(innerPadding)
-            )
+            when (currentDestination) {
+                AppDestinations.HOME -> AddProductScreen(modifier = Modifier.padding(innerPadding))
+                AppDestinations.FAVORITES -> Greeting(name = "Favorites", modifier = Modifier.padding(innerPadding))
+                AppDestinations.PROFILE -> Greeting(name = "Profile", modifier = Modifier.padding(innerPadding))
+            }
         }
     }
 }
