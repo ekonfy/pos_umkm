@@ -1,1 +1,49 @@
-package com.nfy.pos.ui.templates\n\nimport androidx.compose.foundation.layout.Column\nimport androidx.compose.foundation.layout.PaddingValues\nimport androidx.compose.foundation.layout.fillMaxSize\nimport androidx.compose.foundation.layout.padding\nimport androidx.compose.material3.ExperimentalMaterial3Api\nimport androidx.compose.material3.Scaffold\nimport androidx.compose.material3.Surface\nimport androidx.compose.material3.Text\nimport androidx.compose.material3.TopAppBar\nimport androidx.compose.runtime.Composable\nimport androidx.compose.ui.Modifier\nimport androidx.compose.ui.tooling.preview.Preview\nimport com.nfy.pos.ui.atoms.TextAtom\n\n@OptIn(ExperimentalMaterial3Api::class)\n@Composable\nfun BaseScreenLayout(\n    modifier: Modifier = Modifier,\n    title: String? = null,\n    content: @Composable (PaddingValues) -> Unit\n) {\n    Scaffold(\n        topBar = {\n            if (title != null) {\n                TopAppBar(\n                    title = { TextAtom(text = title) }\n                )\n            }\n        },\n        modifier = modifier\n    ) {\ paddingValues ->\n        Surface(modifier = Modifier.fillMaxSize()) {\n            Column(modifier = Modifier.padding(paddingValues)) {\n                content(paddingValues)\n            }\n        }\n    }\n}\n\n@Preview(showBackground = true)\n@Composable\nfun PreviewBaseScreenLayout() {\n    BaseScreenLayout(title = \"Sample Title\") {\ padding ->\n        Text(text = \"This is the content of the screen\", modifier = Modifier.padding(padding))\n    }\n}\n
+package com.nfy.pos.ui.templates
+
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
+import com.nfy.pos.ui.atoms.TextAtom
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun BaseScreenLayout(
+    modifier: Modifier = Modifier,
+    title: String? = null,
+    content: @Composable (PaddingValues) -> Unit
+) {
+    Scaffold(
+        topBar = {
+            if (title != null) {
+                TopAppBar(
+                    title = { TextAtom(text = title) }
+                )
+            }
+        },
+        modifier = modifier
+    ) {
+        // Perlu blok lambda di sini untuk konten
+        Surface(modifier = Modifier.fillMaxSize()) {
+            Column(modifier = Modifier.padding(it)) { // Menggunakan 'it' untuk PaddingValues
+                content(it)
+            }
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun PreviewBaseScreenLayout() {
+    BaseScreenLayout(title = "Sample Title") {
+        Text(text = "This is the content of the screen") // Modifier padding sudah ditangani di dalam BaseScreenLayout
+    }
+}
